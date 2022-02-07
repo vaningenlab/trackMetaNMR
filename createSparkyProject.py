@@ -513,7 +513,7 @@ def update():
                     p.close()
                     # derive root of sparky file by keeping only:
                     # {HN}{NH}{HA}{HB}{CA}{CB}{CO}{HSQC}{TROSY}{NOESY}{TOCSY}{ME}
-                    pattern = 'hn|co|ca|cb||ha|hb|nh|hc|ch|hsqc|trosy|noesy|tocsy|cosy|me|ch3'
+                    pattern = 'hn|co|ca|cb||ha|hb|nh|hc|ch|cc|hsqc|hmqc|trosy|noesy|tocsy|cosy|me|ch3|ex|noe|t1|t2|dipsi'
                     pg = ''.join(re.findall(pattern,pgWord.lower())).upper()
                     if pg == '':
                         pg = pgWord
