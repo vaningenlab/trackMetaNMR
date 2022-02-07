@@ -1,11 +1,7 @@
 This set of tools will query, story and track metadata thorugh NMR data acquisition, conversion and analysis to facilitate later deposition to the BMRB.
 It was developed by Heyi Zhang & Hugo van Ingen, Utrecht University, as part of the iNEXT-Discovery program WP5 Data Management project.
 
-# How to install
-Use of these tools assumes you use a Bruker spectrometer with Topspin and do the analysis using NMRFAM-SPARKY.
-This workflow has been tested w/ Topspin3.2 and Topspin4.1.3, and on Mac OS 10.14 with python3.9 (Anaconda3 distribution)
-
-## Description of the files
+# Files
 - setupTitration
 > Bruker Topspin AU program to create dataset for titration experiment and query for sample metada        
 - setupDataset
@@ -19,6 +15,9 @@ This workflow has been tested w/ Topspin3.2 and Topspin4.1.3, and on Mac OS 10.1
 - createSparkyProject.py
 > Python3/Tkinter script to convert a complete Bruker NMR dataset into a ready-to-use SPARKY project and extract and store the associated metadata 
 
+# How to install
+Use of these tools assumes you use a Bruker spectrometer with Topspin and do the analysis using NMRFAM-SPARKY.
+This workflow has been tested w/ Topspin3.2 and Topspin4.1.3, and on Mac OS 10.14 with python3.9 (Anaconda3 distribution)
 
 ## On the spectrometer
 copy the AU programs "setupTitration", "setupDataset" and "setlev" in, e.g.:
@@ -30,7 +29,6 @@ copy the macros "xfbla" and "it" in, e.g.:
                     /opt/topspin4.1.3/exp/stan/nmr/lists/mac/user
 
 ## On your computer
-
 This script requires python3.x with the tkinter module and NMRFAM-SPARKY.
 Store the script in a convenient location, for instance ~/bin
 Adapt the line 
