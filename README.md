@@ -56,18 +56,18 @@ This workflow has been tested w/ Topspin3.2 and Topspin4.1.3, and on Mac OS 10.1
 - otherwise do (be sure to use the correct path to the createSparkyProject.py script):
 > python3 ~/bin/createSparkyProject.py, 
 - a GUI opens, the status line in the bottom of the window tells you what do.
-  If you have executed the last command in the directory containing the various NMR experiments in the dataset,
-  then it suffices to click "Update". Otherwise, click "Select" to select the Bruker NMR folder (containing 1/ 2/ 3/ ...) and then click "Update"
+- if you have executed the last command in the directory containing the various NMR experiments in the dataset,
+  then it suffices to click "Update". 
+- Otherwise, click "Select" to select the Bruker NMR folder (containing 1/ 2/ 3/ ...) and then click "Update"
 - this will extract all metadata and show a list of all 2D and 3D experiments.
-  You can manually edit metadata if desired.
-  The labeling scheme and reference molecule can also be chosedn in the dropdown menu to make sure it corresponds to values used by the BMRB 
-- by default all the spectra in the spectra list are selected for conversion to SPARKY
-	You can manually unselect one or more spectra by mouse click while holding ctrl key 
-- by default the SAPRKY folder that will generated will be created in the folder that contains the Bruker NMR dataset
-	You can change this location using the "Select" button
+- you can manually edit metadata if desired, the labeling scheme and reference molecule can be set via the dropdown menu to values used by the BMRB 
+- by default all the spectra in the spectra list are selected for conversion to SPARKY, you can manually unselect one or more spectra by mouse click while holding ctrl key 
+- by default the SPARKY folder that will generated will be created in the folder that contains the Bruker NMR dataset, this can be changed using the "Select" button
 - the name for the sparky project is generated based on the protein and ligand names, but can be changed manually
 - click "Convert to sparky" to generate a Sparky folder with selected spectra.
+- spectrum names will start with the corresponding expno of the NMR dataset; contouring and spectrum colors are automatically chosen
 - a file metadata.txt is generated in the Sparky folder and the NMR dataset folder recording all metadata
+- open the SPARKY project and enjoy!
 
 
 
