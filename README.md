@@ -20,24 +20,22 @@ Use of these tools assumes you use a Bruker spectrometer with Topspin and do the
 This workflow has been tested w/ Topspin3.2 and Topspin4.1.3, and on Mac OS 10.14 with python3.9 (Anaconda3 distribution)
 
 ## On the spectrometer
-copy the AU programs "setupTitration", "setupDataset" and "setlev" in, e.g.:
-                    /opt/topspin3.2/exp/stan/nmr/au/src/user
-                    /opt/topspin4.1.3/exp/stan/nmr/au/src/user
-                    
-copy the macros "xfbla" and "it" in, e.g.:
-                    /opt/topspin3.2/exp/stan/nmr/lists/mac/user
-                    /opt/topspin4.1.3/exp/stan/nmr/lists/mac/user
+- copy the AU programs "setupTitration", "setupDataset" and "setlev" in, e.g.:
+> /opt/topspin3.2/exp/stan/nmr/au/src/user
+> /opt/topspin4.1.3/exp/stan/nmr/au/src/user
+- copy the macros "xfbla" and "it" in, e.g.:
+> /opt/topspin3.2/exp/stan/nmr/lists/mac/user
+> /opt/topspin4.1.3/exp/stan/nmr/lists/mac/user
 
 ## On your computer
-This script requires python3.x with the tkinter module and NMRFAM-SPARKY.
-Store the script in a convenient location, for instance ~/bin
-Adapt the line 
-    sparky_bin_dir = '/Applications/nmrfam-sparky-mac/NMRFAM-SPARKY.app/Contents/Resources/bin/'
+- make sure you have python3.x with the tkinter module and NMRFAM-SPARKY installed
+- store the createSparkyProject.py script in a convenient location, for instance in ~/bin
+- adapt the line 
+> sparky_bin_dir = '/Applications/nmrfam-sparky-mac/NMRFAM-SPARKY.app/Contents/Resources/bin/'
 to match the location of the bruk2ucsf and ucsfdata tools on your computer
-
-Then we recommend to create an alias (substitute your python version!):
-  tcsh: alias createSparkyProj 'python3.9 ~/bin/createSparkyProject.py'  (.tcshrc or .cshrc)
-  bash: alias createSparkyProj="python3.9 ~/bin/createSparkyProject.py"  (.bash_aliases or .profile)
+- we recommend to create an alias (substitute your python version!):
+> tcsh: alias createSparkyProj 'python3.9 ~/bin/createSparkyProject.py'  (.tcshrc or .cshrc)
+> bash: alias createSparkyProj="python3.9 ~/bin/createSparkyProject.py"  (.bash_aliases or .profile)
 
 # How to use
 
