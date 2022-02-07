@@ -39,24 +39,22 @@ This workflow has been tested w/ Topspin3.2 and Topspin4.1.3, and on Mac OS 10.1
 # How to use
 
 ## On the spectrometer
-- to create your dataset, use the command        
-    setupTitration            
-    this will create a standardized dataset name and will query the user for the sample metadata (protein + ligand name, concentration, buffer etc)
-    the metadata is stored in the title of the experiment
+- create your datase using the command        
+> setupTitration            
+- this will create a standardized dataset name and will query the user for the sample metadata (protein + ligand name, concentration, buffer etc)
+- the metadata is stored in the title of the experiment
 - to update the title for a new step in the titration, use the command
-        it
-   this will query the user for the new ligand concentration and update the title field accordingly
+> it
 - to process the data to a spectrum, use the command
-        xfbla
-  this will set and store the contour levels appropiately and is required to be executed once to make sure the createSparkyProject.py will set the contour level properly
+ > xfbla
+- this will set and store the contour levels appropiately and is required to be executed once to make sure the createSparkyProject.py will set the contour level properly
 
 ## On the local computer
 - navigate to the NMR dataset folder in the Terminal and descend into the dataset folder (you should see the expno directories)
-- on the command line execute the command
-        createSparkyProj
-  if you have created the alias, or
-         python3 ~/bin/createSparkyProject.py
-  if you haven't, be sure to use the correct path to the createSparkyProject.py script
+- if you have created the alias, execute on the command line
+> createSparkyProj
+- otherwise do (be sure to use the correct path to the createSparkyProject.py script):
+> python3 ~/bin/createSparkyProject.py, 
 - a GUI opens, the status line in the bottom of the window tells you what do.
   If you have executed the last command in the directory containing the various NMR experiments in the dataset,
   then it suffices to click "Update". Otherwise, click "Select" to select the Bruker NMR folder (containing 1/ 2/ 3/ ...) and then click "Update"
