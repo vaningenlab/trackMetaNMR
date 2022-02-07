@@ -21,10 +21,10 @@ This workflow has been tested w/ Topspin3.2 and Topspin4.1.3, and on Mac OS 10.1
 
 ## On the spectrometer
 - copy the AU programs "setupTitration", "setupDataset" and "setlev" in, e.g.:
-> /opt/topspin3.2/exp/stan/nmr/au/src/user
+> /opt/topspin3.2/exp/stan/nmr/au/src/user  
 > /opt/topspin4.1.3/exp/stan/nmr/au/src/user
 - copy the macros "xfbla" and "it" in, e.g.:
-> /opt/topspin3.2/exp/stan/nmr/lists/mac/user
+> /opt/topspin3.2/exp/stan/nmr/lists/mac/user  
 > /opt/topspin4.1.3/exp/stan/nmr/lists/mac/user
 
 ## On your computer
