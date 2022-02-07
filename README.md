@@ -6,12 +6,18 @@ Use of these tools assumes you use a Bruker spectrometer with Topspin and do the
 This workflow has been tested w/ Topspin3.2 and Topspin4.1.3, and on Mac OS 10.14 with python3.9 (Anaconda3 distribution)
 
 ## Description of the files
-- setupTitration	Bruker Topspin AU program to create dataset for titration experiment and query for sample metadata        
-- setupDataset		Bruker Topspin AU program to create dataset and query for sample metadata
-- setlev                Bruker Tosppin AU program to calculate contour levels, using 1.2 factor and 20 levels
-- xfbla			Bruker Topspin macro to process 2D data, including setting of contours and baseline correction
-- it			Bruker Topspin macro to increment the experiment and query for new ligand concentration
-- createSparkyProject.py	Python3/Tkinter script to convert a complete Bruker NMR dataset into a ready-to-use SPARKY project and extract and store the associated metadata 
+- setupTitration
+> Bruker Topspin AU program to create dataset for titration experiment and query for sample metada        
+- setupDataset
+> Bruker Topspin AU program to create dataset and query for sample metadata
+- setlev
+> Bruker Tosppin AU program to calculate contour levels, using 1.2 factor and 20 levels
+- xfbla
+> Bruker Topspin macro to process 2D data, including setting of contours and baseline correction
+- it
+> Bruker Topspin macro to increment the experiment and query for new ligand concentration
+- createSparkyProject.py
+> Python3/Tkinter script to convert a complete Bruker NMR dataset into a ready-to-use SPARKY project and extract and store the associated metadata 
 
 
 ## On the spectrometer
