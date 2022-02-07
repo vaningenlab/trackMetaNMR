@@ -5,26 +5,25 @@ It was developed by Heyi Zhang & Hugo van Ingen, Utrecht University, as part of 
 Use of these tools assumes you use a Bruker spectrometer with Topspin and do the analysis using NMRFAM-SPARKY.
 This workflow has been tested w/ Topspin3.2 and Topspin4.1.3, and on Mac OS 10.14 with python3.9 (Anaconda3 distribution)
 
-## On the spectrometer
-setupTitration      AU program to create dataset and query for sample metadata
-                    specific for titration experiments           
-setupDataset        AU program to create dataset and query for sample metadata
-                    for general use
-setlev              AU program to calculate contour levels, using 1.2 factor and 20 levels
-                    use of 'setlev' is required for the createSparkyProject.py script below
-xfbla               macro to process 2D data, including setting of contours and baseline correction
+## Description of the files
+- setupTitration	Bruker Topspin AU program to create dataset for titration experiment and query for sample metadata        
+- setupDataset		Bruker Topspin AU program to create dataset and query for sample metadata
+- setlev                Bruker Tosppin AU program to calculate contour levels, using 1.2 factor and 20 levels
+- xfbla			Bruker Topspin macro to process 2D data, including setting of contours and baseline correction
+- it			Bruker Topspin macro to increment the experiment and query for new ligand concentration
+- createSparkyProject.py	Python3/Tkinter script to convert a complete Bruker NMR dataset into a ready-to-use SPARKY project and extract and store the associated metadata 
 
-copy the AU programs in, e.g.:
+
+## On the spectrometer
+copy the AU programs "setupTitration", "setupDataset" and "setlev" in, e.g.:
                     /opt/topspin3.2/exp/stan/nmr/au/src/user
                     /opt/topspin4.1.3/exp/stan/nmr/au/src/user
                     
-copy the macro in, e.g.:
+copy the macros "xfbla" and "it" in, e.g.:
                     /opt/topspin3.2/exp/stan/nmr/lists/mac/user
                     /opt/topspin4.1.3/exp/stan/nmr/lists/mac/user
 
 ## On your computer
-createSparkyProject.py    Python3/Tkinter script to convert a complete Bruker NMR dataset into a ready-to-use SPARKY project
-                          and extract and store the associated metadata 
 
 This script requires python3.x with the tkinter module and NMRFAM-SPARKY.
 Store the script in a convenient location, for instance ~/bin
