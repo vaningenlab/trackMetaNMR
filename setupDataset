@@ -1,0 +1,188 @@
+// HvI 2021 for NEO 900
+// set-up new dataset and load expnos for protein ligand titration experiment
+// writes sample meta-data to title
+
+#include <time.h>
+#include <string.h>
+
+// define variables
+char datestr[60];
+char newdatasetname[40];
+char newproteinname[20];
+char ligandname[20];
+char ligandconc[20];
+char proteinConcString[20];
+char proteinVolString[20];
+char labelString[100];
+char tubeString[20];
+char bufferString[20];
+char saltString[20];
+char pHString[10];
+char D2OString[10];
+char additiveString[40];
+char longBufferString1[200];
+char longBufferString2[200];
+char titlePath[200];
+char spacer[20];
+const char* datDir = "/opt/nmrdata/user/";
+
+time_t rawtime;
+struct tm * timeinfo;
+FILE *titleFilePointer;
+
+// get current date
+time (&rawtime);
+timeinfo = localtime (&rawtime);
+strftime (datestr, 20, "%y%m%d", timeinfo);
+
+// get initials
+GETSTRING("Please enter your initials:", newdatasetname)
+
+// get protein and ligand name
+GETSTRING("Please enter your protein acronym:", newproteinname)
+
+// get sample conditions
+GETSTRING("Please specify protein concentration (e.g. 0.5 mM):", proteinConcString);
+GETSTRING("Please specify labeling (e.g. U-15N,13C):", labelString);
+//strcpy(labelString,"U-15N,13C");
+GETSTRING("Please specify sample volume (e.g. 500 uL):", proteinVolString);
+//strcpy(proteinVolString,"500 uL");
+GETSTRING("Please specify tube type (e.g. 5mm / Shigemi / 3mm):", tubeString);
+//strcpy(tubeString,"5mm");
+GETSTRING("Please specify the buffer (e.g. 20 mM NaPi):", bufferString);
+//strcpy(bufferString,"20 mM KPi");
+GETSTRING("Please specify the salt (e.g. 100 mM NaCl):", saltString);
+//strcpy(saltString,"100 mM NaCl");
+GETSTRING("Please specify the pH (e.g. 6.5):", pHString);
+//strcpy(pHString,"7.4");
+GETSTRING("Please specify D2O content (e.g. 10%):", D2OString);
+//strcpy(D2OString,"10%");
+GETSTRING("Please specify additives (e.g. 1 mM DTT / 0.01% NaN3):", additiveString);
+//strcpy(additiveString,"n.a.");
+
+// build first line of title
+strcpy(longBufferString1, "\n\nprotein: ");
+strcat(longBufferString1, newproteinname);
+strcat(longBufferString1, " / ");
+strcat(longBufferString1, proteinConcString);
+strcat(longBufferString1, " / ");
+strcat(longBufferString1, labelString);
+strcat(longBufferString1, " / ");
+strcat(longBufferString1, proteinVolString);
+strcat(longBufferString1, " / ");
+strcat(longBufferString1, tubeString);
+//Proc_err(DEF_ERR_OPT, "first line is: %s", longBufferString1);
+
+// build second line of title
+strcpy(longBufferString2, "\nbuffer: ");
+strcat(longBufferString2, bufferString);
+strcat(longBufferString2, " / ");
+strcat(longBufferString2, saltString);
+strcat(longBufferString2, " / pH ");
+strcat(longBufferString2, pHString);
+strcat(longBufferString2, " / ");
+strcat(longBufferString2, D2OString);
+strcat(longBufferString2, " D2O / ");
+strcat(longBufferString2, additiveString);
+//Proc_err(DEF_ERR_OPT,"second line is: %s", longBufferString2);
+
+// create new dataset name
+strcpy(spacer, "_n9_");
+strcat(spacer, newproteinname);
+strcat(newdatasetname, datestr);
+strcat(newdatasetname, spacer);
+
+// create new dataset
+DATASET(newdatasetname, 1, 1, datDir , "nmr1")
+
+// rpar: 
+//   expno 1:  zg4x90 for 1H calib and H2O offset
+//   expno 2:  hvi_calib_15N
+//   expno 3:  hvi_calib_13C
+//   expno 4:  1D simple
+//   expno 5:  1D w/ 15N/13C decoupling
+//   expno 6:  15N-1H TROSY
+//   expno 7:  13C-1H HSQC 
+
+RPAR("user/hvi_calib_1h","all")
+strcpy(titlePath, datDir);
+strcat(titlePath, newdatasetname);
+strcat(titlePath, "/1/pdata/1/title");
+titleFilePointer = fopen(titlePath, "a");
+fputs(longBufferString1,titleFilePointer);
+fputs(longBufferString2,titleFilePointer);
+fputs(longBufferString3,titleFilePointer);
+fputs(longBufferString4,titleFilePointer);
+
+IEXPNO
+RPAR("user/hvi_calib_15n","all")
+strcpy(titlePath, datDir);
+strcat(titlePath, newdatasetname);
+strcat(titlePath, "/2/pdata/1/title");
+titleFilePointer = fopen(titlePath, "a");
+fputs(longBufferString1,titleFilePointer);
+fputs(longBufferString2,titleFilePointer);
+fputs(longBufferString3,titleFilePointer);
+fputs(longBufferString4,titleFilePointer);
+
+IEXPNO
+RPAR("user/hvi_calib_13c","all")
+strcpy(titlePath, datDir);
+strcat(titlePath, newdatasetname);
+strcat(titlePath, "/3/pdata/1/title");
+titleFilePointer = fopen(titlePath, "a");
+fputs(longBufferString1,titleFilePointer);
+fputs(longBufferString2,titleFilePointer);
+fputs(longBufferString3,titleFilePointer);
+fputs(longBufferString4,titleFilePointer);
+
+IEXPNO
+RPAR("user/hvi_1D_undec","all")
+strcpy(titlePath, datDir);
+strcat(titlePath, newdatasetname);
+strcat(titlePath, "/4/pdata/1/title");
+titleFilePointer = fopen(titlePath, "a");
+fputs(longBufferString1,titleFilePointer);
+fputs(longBufferString2,titleFilePointer);
+fputs(longBufferString3,titleFilePointer);
+fputs(longBufferString4,titleFilePointer);
+
+IEXPNO
+RPAR("user/hvi_1D_dec","all")
+strcpy(titlePath, datDir);
+strcat(titlePath, newdatasetname);
+strcat(titlePath, "/5/pdata/1/title");
+titleFilePointer = fopen(titlePath, "a");
+fputs(longBufferString1,titleFilePointer);
+fputs(longBufferString2,titleFilePointer);
+fputs(longBufferString3,titleFilePointer);
+fputs(longBufferString4,titleFilePointer);
+
+IEXPNO
+RPAR("user/hvi_TROSY.btr","all")
+strcpy(titlePath, datDir);
+strcat(titlePath, newdatasetname);
+strcat(titlePath, "/6/pdata/1/title");
+titleFilePointer = fopen(titlePath, "a");
+fputs(longBufferString1,titleFilePointer);
+fputs(longBufferString2,titleFilePointer);
+fputs(longBufferString3,titleFilePointer);
+fputs(longBufferString4,titleFilePointer);
+
+IEXPNO
+RPAR("user/hvi_Chsqc.ct","all")
+strcpy(titlePath, datDir);
+strcat(titlePath, newdatasetname);
+strcat(titlePath, "/7/pdata/1/title");
+titleFilePointer = fopen(titlePath, "a");
+fputs(longBufferString1,titleFilePointer);
+fputs(longBufferString2,titleFilePointer);
+fputs(longBufferString3,titleFilePointer);
+fputs(longBufferString4,titleFilePointer);
+
+//join expno 1 and show
+REXPNO(1)
+VIEWDATA_SAMEWIN
+
+
+QUIT

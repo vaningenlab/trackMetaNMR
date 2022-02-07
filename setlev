@@ -1,0 +1,198 @@
+/*** ^^A -*-C++-*- **********************************************/
+/*      setlev HvI 8.12.21                                      */
+/*      from: clev        26.08.2013                            */
+/****************************************************************/
+/*      Short Description :                                     */
+/*      AU program to automatically calculate levels for 2D     */
+/*      modified by HvI for 1.2 factor and 20 levels (pos & neg)*/
+/*      starting from 6*noise-level estimate (minimum)          */
+/****************************************************************/
+/*      Keywords :                                              */
+/*      2D, levels, automation                                  */
+/****************************************************************/
+/*      Description/Usage :                                     */
+/*      AU program to automatically calculate levels for 2D     */
+/*      display. The program estimates the noise level and      */
+/*      calculates a base level out of this. 
+/****************************************************************/
+/*      Author(s) :                                             */
+/*      Name            : Rainer Kerssebaum                     */
+/*      Organisation    : Bruker BioSpin GmbH                   */
+/*      Email           : rainer.kerssebaum@bruker-biospin.de   */
+/****************************************************************/
+/*      Name    Date    Modification:                           */
+/*      rke     040322  TopSpin version created                 */
+/*      rke     040324  user defined median value via cmd line  */
+/*      rke     050201  imed==0 bug corrected                   */
+/*      rke     060111  setting of lev0 changed                 */
+/*      rke     060112  cmd line input for +- and nlev          */
+/*      rke     130826  Show_meta, store cmd-line nlev          */
+/****************************************************************/
+/*
+$Id: clev,v 1.3 2013/08/26 13:19:46 wem Exp $
+*/
+
+AUERR = levcalc(curdat);
+QUIT
+
+#include <pstruc.h>
+#include <pstruc_level.h>
+#include <lib/par.h>
+
+static struct level_pars ql =
+#include <pinit_level.h>
+
+static int compar(const void* v1, const void* v2);
+
+int levcalc(const char* curdat)
+{
+int     parmode, si1, si2, sizeofint, maxi, nlev=20, ncproc;
+int     pmax,nmax,pmed,nmed,imax,imed,endian,pos=1,neg=1,mag=0;
+FILE    *fin;
+int     i,i1,*in,ret;
+float   f1,f2,f3,lev0,median=0.5,nfact;
+char    filepath[PATH_MAX];
+
+
+/* The program works only on 2D datasets */
+FETCHPARS("PPARMOD",&parmode)
+if (parmode != 1) {STOPMSG( "Not a 2D dataset" );}
+
+
+
+/* Get or store Parameters */
+STOREPAR("NLEV",nlev);
+
+FETCHPARS("NC_proc",&ncproc);
+FETCHPARS("BYTORDP",&endian);
+
+/* Get data set size */
+FETCHPARS("SI",&si2)
+FETCHPAR1S("SI",&si1)
+sizeofint = sizeof(int);
+maxi=si2*si1;
+in=calloc(si2*si1,sizeofint);
+
+
+/* Read in 2rr-file into buffer */
+strncpy(filepath,PROCPATH("2rr"),sizeof(filepath)-1);
+
+if (!(fin = fopen(filepath,"rb")))
+    STOPMSG("Cannot open 2rr file for reading")
+
+if (fread(in,sizeofint,maxi,fin) != maxi)
+    STOPMSG("Can not read file 2rr")
+fclose(fin);
+local_swap4(in,sizeofint*si1*si2,endian);
+
+
+/* Sort the values in "in"  */
+Show_status("evaluating 2rr file ....");
+qsort(in,si2*si1,sizeofint,compar);
+
+i=0;
+while ( (in[i] > 0) && (i<(maxi-1)) )  i++;
+pmax=0;
+pmed=i*(1-median);
+
+if (in[maxi-1] >= 0 )       /* only positive values in 2rr*/
+{
+    mag=1;
+    imax=in[pmax];          /* max intensity */
+    imed=in[pmed];          /* medium intensity */
+
+/*    Proc_err(ERRORH_OPT,"pmax= %d \npmed= %d \nimax= %d \nimed= %d",
+    in[pmax],in[pmed],imax,imed); */
+}
+else                        /* positive and negative values in 2rr */
+{
+    mag=0;
+    nmax=maxi-1;
+    nmed=i+(maxi-1-i)*median;
+
+    if (in[pmax] > (-in[nmax]))  imax=in[pmax]; else imax=(-in[nmax]);
+    if (in[pmed] > (-in[nmed]))  imed=in[pmed]; else imed=(-in[nmed]);
+
+/*    Proc_err(ERRORH_OPT," Pmax= %d Pmed= %d\n Nmax= %d Nmed= %d\n Imax= %d Imed= %d",
+    in[pmax],in[pmed],in[nmax],in[nmed],imax,imed); */
+    }
+
+/* Find the base value for the levels */ 
+/* nfact is relative difference max and median intensity */
+nfact=imax/imed;
+/* if nfact is 100, lev0 set to 40 
+
+/* if (nfact < 4) lev0=6 (so start at 5*times noise level; */
+
+lev0=log(nfact)*2;
+lev0=lev0*(log(lev0)/4.2+0.5);
+if (lev0 < 6.0) lev0=6.0; 
+
+/* f1 is base -level 6*noise at minimum */
+/* f3 is increment is fixed to 1.2 */
+f1 = imed*lev0;
+f2 = imax;
+if (f1 > f2)  f1=f2-1;
+f3 = 1.2;
+/* Proc_err(ERRORH_OPT,"fact= %.2f",f3); */
+
+/* Prepare the level-file */
+strncpy(longpath,PROCPATH("clevels"),sizeof(filepath)-1);
+
+/* fill struct ql with the parameters of clevels file       */
+/* this is not (!) necessarry before writing individual */
+/* parameters to the clevels file               */
+(void)getpar(longpath, "$DISPL", &ql);
+
+/* Calculate the values */
+/* Proc_err(ERROPT_AK_OK,"median= %.1f \nnlev= %d \npos= %d \nneg= %d",median,nlev,pos,neg); */
+
+TIMES(255)
+    ql.LEVELS[loopcount1] = 0;
+END
+
+
+/* positive and negative */
+if ( (pos == 1) && (neg == 1) )
+{
+    TIMES(nlev)
+        ql.LEVELS[nlev-1-loopcount1] = -(f1 * pow(f3, loopcount1) * pow(2,ncproc));
+    END
+    TIMES(nlev)
+        ql.LEVELS[loopcount1+nlev] = (f1 * pow(f3, loopcount1) * pow(2,ncproc));
+    END
+    ql.LEVSIGN=0;
+}
+
+ql.MAXLEV=nlev;
+ql.METHOD=0;
+ql.NEGBASE=-f1* pow(2,ncproc);
+ql.NEGINCR=f3;
+ql.POSBASE=f1* pow(2,ncproc);
+ql.POSINCR=f3;
+
+if ((ret = putpar(longpath, "$DISPL", &ql)) < 0)
+{
+    Proc_err(DEF_ERR_OPT, "putpar failed on %s\n%s", longpath, par_err(ret));
+    return -1;
+}
+
+
+/* Save the value for lev0 into statusparam */
+STOREPARS("LEV0",lev0)
+
+free(in);
+
+Show_meta(SM_PROC|SM_PROCP);
+Show_status("finished");
+return 0;
+}
+
+
+/***************** compar compares two integer vaules *****************/
+static int compar(const void* v1, const void* v2)
+{
+if (*(const int*)v1 > *(const int*)v2)  return -1;
+if (*(const int*)v1 < *(const int*)v2)  return 1;
+return 0;
+}

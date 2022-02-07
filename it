@@ -1,0 +1,78 @@
+// HvI 2021 for NEO 900
+// set-up expnos for titration experiment
+// ask for new ligand conc and writes to title
+// using replace line function from inc/lcUtil
+
+// define variables
+char ligandConcString[20];
+char ligandString[1024];
+
+char TempStr[1024];
+char ActLine[1024];
+char KeyW[1024];
+char FileTmpP[PATH_MAX];
+FILE *File,*FileTmp;
+size_t KeyWordL;
+
+// get new ligand concentration
+GETSTRING("Please enter new ligand concentration (%, eq. or uM etc):", ligandConcString)
+
+// build ligand line of title
+strcpy(ligandString, "ligand concentration: ");
+strcat(ligandString, ligandConcString);
+
+// increment current experiment
+IEXPNO
+SETCURDATA
+
+// write to title
+
+FILE*   fpo = fopen(PROCPATH("title"), "r");
+
+if (fpo == NULL)
+    Proc_err(DEF_ERR_OPT, "Cannot append to title");
+else
+{
+    fprintf(fpo, "\n%s", ligandString);
+    //RepLine(curdat, PROCPATH("title"),"\n :",ligandString);
+    /* KeyWord and length */
+    strcpy(KeyW,"ligand concentration: ");
+    KeyWordL = strlen(KeyW);
+    /* Create name of temporary file */
+    sprintf(FileTmpP,"%s.tmp",PROCPATH("title"));
+    /* Open temporary file as text file for correct linefeed */
+    FileTmp = fopen(FileTmpP,"wt");
+    /* Copy line by line and replace the one with the keyword */
+    while ( fgets(ActLine, (int)sizeof(ActLine), fpo) != 0 )
+    {
+      size_t ActL = strlen(ActLine);
+      char*  ep = ActLine + ActL;
+      while (ActL  &&  (*--ep == '\n'  ||  *ep == '\r'))
+      {
+        *ep = 0;            /* strip off CRLF chars */
+        ActL--;
+      }
+      if ( ActL >= KeyWordL )
+      {
+        /* copy the first characters with -hopefully- the keyword */
+        strncpy(TempStr, ActLine, KeyWordL);
+        if ( strncmp(TempStr,KeyW,KeyWordL) == 0 )
+        {
+          /* Replace this line with actual information */
+         sprintf(ActLine,"%s%s",KeyW,ligandConcString);
+        }
+      }
+      /* Copy the line (original or modified) to temp. file */
+      fprintf(FileTmp,"%s\n",ActLine);
+    }
+    fclose(fpo);
+    /* Close temporary file */
+    fclose(FileTmp);
+    /* Replace old tile file and remove tmp file */
+    dircp(FileTmpP,PROCPATH("title"));
+    unlink(FileTmpP);
+}
+
+VIEWDATA_SAMEWIN
+
+QUIT
