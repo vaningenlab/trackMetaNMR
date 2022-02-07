@@ -30,11 +30,10 @@ This workflow has been tested w/ Topspin3.2 and Topspin4.1.3, and on Mac OS 10.1
 ## On your computer
 - make sure you have python3.x with the tkinter module and NMRFAM-SPARKY installed
 - store the createSparkyProject.py script in a convenient location, for instance in ~/bin
-- adapt the line 
+- locate the line below in the script and adapt to match the location of the bruk2ucsf and ucsfdata tools on your computer 
 > sparky_bin_dir = '/Applications/nmrfam-sparky-mac/NMRFAM-SPARKY.app/Contents/Resources/bin/'
-to match the location of the bruk2ucsf and ucsfdata tools on your computer
 - we recommend to create an alias (substitute your python version!):
-> tcsh: alias createSparkyProj 'python3.9 ~/bin/createSparkyProject.py'  (.tcshrc or .cshrc)
+> tcsh: alias createSparkyProj 'python3.9 ~/bin/createSparkyProject.py'  (.tcshrc or .cshrc)  
 > bash: alias createSparkyProj="python3.9 ~/bin/createSparkyProject.py"  (.bash_aliases or .profile)
 
 # How to use
