@@ -1,4 +1,4 @@
-This set of tools will query, story and track metadata thorugh NMR data acquisition, conversion and analysis to facilitate later deposition to the BMRB.
+This set of tools will query, story and track metadata through NMR data acquisition, conversion and analysis to facilitate later deposition to the BMRB.
 It was developed by Heyi Zhang & Hugo van Ingen, Utrecht University, as part of the iNEXT-Discovery program WP5 Data Management project.
 
 # Files
