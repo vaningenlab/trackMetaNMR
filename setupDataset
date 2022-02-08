@@ -1,6 +1,7 @@
 // HvI 2021 for NEO 900
 // set-up new dataset and load expnos for protein ligand titration experiment
 // writes sample meta-data to title
+// ADAPT THE LOADING OF DEFAULT PARAMETER SETS AT LINE 99 AND BELOW TO YOUR SETUP AND NEEDS
 
 #include <time.h>
 #include <string.h>
@@ -103,6 +104,7 @@ DATASET(newdatasetname, 1, 1, datDir , "nmr1")
 //   expno 5:  1D w/ 15N/13C decoupling
 //   expno 6:  15N-1H TROSY
 //   expno 7:  13C-1H HSQC 
+// ADAPT THIS TO YOUR NEEDS AND SETUP
 
 RPAR("user/hvi_calib_1h","all")
 strcpy(titlePath, datDir);
