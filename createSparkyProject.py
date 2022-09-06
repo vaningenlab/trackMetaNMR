@@ -135,10 +135,10 @@ def cvt2sparky():
     if not os.path.exists(sparky_spectra_path):
         os.mkdir(sparky_spectra_path)
         statusvar.set("Created SPARKY Spectra folder")
-    sparky_list_path = os.path.join(entry10.get(), "List")
+    sparky_list_path = os.path.join(entry10.get(), "Lists")
     if not os.path.exists(sparky_list_path):
         os.mkdir(sparky_list_path)
-        statusvar.set("Created SPARKY List folder")
+        statusvar.set("Created SPARKY Lists folder")
     sparky_save_path = os.path.join(entry10.get(), "Save")
     if not os.path.exists(sparky_save_path):
         os.mkdir(sparky_save_path)
