@@ -12,6 +12,7 @@
 #   - click convert to SPARKY if you're happy with the extracted data
 #   - the SPARKY folder is created in same dir as the one that contains the NMR dataset
 #   - it also contains "metadata.txt" which contains all extracted metadata
+#   - note that the path of your NMR data should not contain spaces!!
 #   - open the SPARKY project file and you're good to go!
 #
 # this script needs:
@@ -22,6 +23,7 @@ sparky_bin_dir = '/Applications/nmrfam-sparky-mac/NMRFAM-SPARKY.app/Contents/Res
 
 #
 # to do:
+#   - fix spaces issue
 #   - auto find sparky bin dir
 #   - proper synching of axes using nuclei names
 #   - should run default from top folder containing dataset instead of within
@@ -498,25 +500,30 @@ def update():
                         t.close()
 
                 # get pulprog name
-                pulse_program = str(item_dir + '/pulseprogram')
-                if os.path.isfile(pulse_program):
-                    p = open(pulse_program, 'r')
-                    # difference between TS4 and TS3 in pulseprogram file!
-                    firstLine = p.readline()
-                    firstChar = firstLine.split()[0][0]
-                    if firstChar == '#':
-                        # TS3: pulprog at end of path on line
-                        pgWord = ((firstLine.split()[-1]).split('/')[-1]).replace("\"",'')
-                    elif firstChar == ';':
-                        # TS4 pulprog as first word after removing ;
-                        pgWord = (firstLine.replace(";",'')).split()[0]
-                    p.close()
-                    # derive root of sparky file by keeping only:
-                    # {HN}{NH}{HA}{HB}{CA}{CB}{CO}{HSQC}{TROSY}{NOESY}{TOCSY}{ME}
-                    pattern = 'hn|co|ca|cb||ha|hb|nh|hc|ch|cc|hsqc|hmqc|trosy|noesy|tocsy|cosy|me|ch3|ex|noe|t1|t2|dipsi'
-                    pg = ''.join(re.findall(pattern,pgWord.lower())).upper()
-                    if pg == '':
-                        pg = pgWord
+                # fix Sep 6 2022 HvI
+                pulse_program1 = str(item_dir + '/pulseprogram')
+                pulse_program2 = str(item_dir + '/pulseprogram.precomp')
+                if os.path.isfile(pulse_program1):
+                    pulse_program = pulse_program1
+                elif os.path.isfile(pulse_program2):
+                    pulse_program = pulse_program2
+                p = open(pulse_program, 'r')
+                # difference between TS4 and TS3 in pulseprogram file!
+                firstLine = p.readline()
+                firstChar = firstLine.split()[0][0]
+                if firstChar == '#':
+                    # TS3: pulprog at end of path on line
+                    pgWord = ((firstLine.split()[-1]).split('/')[-1]).replace("\"",'')
+                elif firstChar == ';':
+                    # TS4 pulprog as first word after removing ;
+                    pgWord = (firstLine.replace(";",'')).split()[0]
+                p.close()
+                # derive root of sparky file by keeping only:
+                # {HN}{NH}{HA}{HB}{CA}{CB}{CO}{HSQC}{TROSY}{NOESY}{TOCSY}{ME}
+                pattern = 'hn|co|ca|cb||ha|hb|nh|hc|ch|cc|hsqc|hmqc|trosy|noesy|tocsy|cosy|me|ch3|ex|noe|t1|t2|dipsi'
+                pg = ''.join(re.findall(pattern,pgWord.lower())).upper()
+                if pg == '':
+                    pg = pgWord
                 # get remark from title file (only active for titration)
                 title_file = str(item_dir + '/pdata/1/title')
                 if os.path.isfile(title_file) and titrationFlag == 1:
