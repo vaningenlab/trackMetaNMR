@@ -76,22 +76,23 @@ To use the createSparkyProject.py:
 - open the SPARKY project and enjoy!
 
 To use bdat:
+- make sure the scripts is stored in a location known in $PATH, or are aliased
 - navigate to the NMR dataset folder in the Terminal and descend into the dataset folder (you should see the expno directories)
-- if the script is tored in a location known in $PATH, execute on the command line
+- to extract dataset, sample and expno information for all expnos, type on the command line:
 > bdat
->> this will extract dataset, sample and expno information for all expnos
 - the extracted data is shown on the screen and recorded in a file README
 - CAUTION: expnos without a FID (ser or fid) will be automatically deleted
 - CAUTION: a pre-existing README will be overwritten
 
 To use the bpar, printbar:
+- make sure the scripts are stored in a location known in $PATH, or are aliased
 - navigate to the NMR dataset folder in the Terminal and descend into the dataset folder (you should see the expno directories)
-- if the script is tored in a location known in $PATH, execute on the command line
+- to extract all data from Bruker Topspin eda and ased windows, type on the command line:
 > printbpar
->> this will show all data from Bruker Topspin eda and ased windows
-> bpar
->> to extract a certain parameter, e.g. "bpar ns" will show the number of scans
->> if you are not exactly sure of the parameter name add "xx", e.g. "bpar dxx" will show all parameters with a "d" so all delays
+- to extract a certain parameter, e.g. the number of scans, type on the command line:
+> bpar ns
+- if you are not exactly sure of the parameter name add "xx", e.g. to show all parameters with a "d" so all delays:
+> bpar dxx
 
 
 
