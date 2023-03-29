@@ -14,6 +14,8 @@ It was developed by Heyi Zhang & Hugo van Ingen, Utrecht University, as part of 
 > Bruker Topspin macro to increment the experiment and query for new ligand concentration
 - createSparkyProject.py
 > Python3/Tkinter script to convert a complete Bruker NMR dataset into a ready-to-use SPARKY project and extract and store the associated metadata 
+- bpar_bdat_scripts.tar.gz
+> command line scripts (bpar, printbpar and bdat) to extract (meta)data from Bruker dataset and expno directories
 
 # How to install
 Use of these tools assumes you use a Bruker spectrometer with Topspin and do the analysis using NMRFAM-SPARKY.
@@ -36,6 +38,8 @@ This workflow has been tested w/ Topspin3.2 and Topspin4.1.3, and on Mac OS 10.1
 - we recommend to create an alias (substitute your python version!):
 > tcsh: alias createSparkyProj 'python3.9 ~/bin/createSparkyProject.py'  (.tcshrc or .cshrc)  
 > bash: alias createSparkyProj="python3.9 ~/bin/createSparkyProject.py"  (.bash_aliases or .profile)
+- unzip and untar the bpar_bdat_scripts.tar.gz file in a location that is in your $PATH, e.g. ~/bin, or create an alias as above:
+> tar -zxvf bpar_bdat_scripts.tar.gz 
 
 # How to use
 
@@ -51,6 +55,7 @@ This workflow has been tested w/ Topspin3.2 and Topspin4.1.3, and on Mac OS 10.1
 - this will set and store the contour levels appropiately and is required to be executed once to make sure the createSparkyProject.py will set the contour level properly
 
 ## On the local computer
+To use the createSparkyProject.py:
 - navigate to the NMR dataset folder in the Terminal and descend into the dataset folder (you should see the expno directories)
 - if you have created the alias, execute on the command line
 > createSparkyProj
@@ -69,6 +74,26 @@ This workflow has been tested w/ Topspin3.2 and Topspin4.1.3, and on Mac OS 10.1
 - spectrum names will start with the corresponding expno of the NMR dataset; contouring and spectrum colors are automatically chosen
 - a file metadata.txt is generated in the Sparky folder and the NMR dataset folder recording all metadata
 - open the SPARKY project and enjoy!
+
+To use bdat:
+- navigate to the NMR dataset folder in the Terminal and descend into the dataset folder (you should see the expno directories)
+- if the script is tored in a location known in $PATH, execute on the command line
+> bdat
+>> this will extract dataset, sample and expno information for all expnos
+- the extracted data is shown on the screen and recorded in a file README
+- CAUTION: expnos without a FID (ser or fid) will be automatically deleted
+- CAUTION: a pre-existing README will be overwritten
+
+To use the bpar, printbar:
+- navigate to the NMR dataset folder in the Terminal and descend into the dataset folder (you should see the expno directories)
+- if the script is tored in a location known in $PATH, execute on the command line
+> printbpar
+>> this will show all data from Bruker Topspin eda and ased windows
+> bpar
+>> to extract a certain parameter, e.g. "bpar ns" will show the number of scans
+>> if you are not exactly sure of the parameter name add "xx", e.g. "bpar dxx" will show all parameters with a "d" so all delays
+
+
 
 
 
