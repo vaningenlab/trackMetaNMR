@@ -2,6 +2,7 @@
 #
 # 2021-2022 Heyi Zhang / Hugo van Ingen / Utrecht University
 # funded by iNEXT-Discovery program WP5 Data Management project
+# 2026 - edit HVI for Windows with help of Claude
 #
 # to run:   python3 createSparkyProject.py
 #
@@ -19,12 +20,19 @@
 # 1, Python 3.9 or higher
 # 2, Python module tkinter
 # 3, NMRFAM-SPARKY.app w/ bruk2ucsf and ucsfdata  ==> ! ADAPT the sparky_bin_dir below for your computer !
+
+
+# ==== ADJUST THE PATH TO THE POKY BIN DIRECTORY BELOW  ====
+# Example Mac/Linux setting:
 sparky_bin_dir = '/Applications/nmrfam-sparky-mac/NMRFAM-SPARKY.app/Contents/Resources/bin/'
+
+# Example Windows setting: Path(r"C:\poky_win\bin")
+# SPARKY_BIN_DIR: Optional[Path] = Path(r"C:\poky_win\bin")
 
 #
 # to do:
-#   - fix spaces issue
-#   - auto find sparky bin dir
+#   - fix spaces issue          
+#   - auto find sparky bin dir  WORKS MAC
 #   - proper synching of axes using nuclei names
 #   - should run default from top folder containing dataset instead of within
 #   - add optional pre-fix or suf-fix to outfiles
