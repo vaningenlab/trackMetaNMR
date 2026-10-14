@@ -211,7 +211,15 @@ def parse_acqus(experiment: Path) -> Dict[str, str]:
                 elif len(line.split()) == 2:
                     values["spec_sdf"] = '/'.join(' '.join(line.split()[1:]).split('/')[0:-2])
                 elif len(line.split()) == 3:
-                    values["spec_swr"] = str(' '.join(line.split()[1:]).split('/')[2])
+                     if "topspin4" in line:
+                        # TS4
+                        values["spec_swr"] = str(' '.join(line.split()[1:]).split('/')[2])
+                    elif "TopSpinProcessing5" in line:
+                        # TS5
+                        values["spec_swr"] = "TopSpinProcessing5"
+                    else:
+                        # TS3
+                        values["spec_swr"] = str(' '.join(line.split()[2:]).split('/')[1])
     return values
 
 def parse_procs(experiment: Path) -> Dict[str, str]:
